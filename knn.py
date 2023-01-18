@@ -1,6 +1,7 @@
 import numpy
 import PIL.Image
 import copy
+import os
 
 def getFeatures(filename):
     file_zero=PIL.Image.open(filename)
@@ -26,7 +27,7 @@ def getFeatures(filename):
             else:
                 a4 = a4 + tmp[n]
         data.append(tmp)
-    #numpy.savetxt("output.txt", data, fmt='%d')
+
     a1 = getPercentage(a1)
     a2 = getPercentage(a2)
     a3 = getPercentage(a3)
@@ -40,15 +41,16 @@ def getPercentage(num, den = 120*120):
 
 def main():
     all = []
+    path = os.path.abspath('.')
     for m in range(4):
         for n in range(4):
             filename = str(m) + str(n) + ".png"
-            features = getFeatures('c://wj//test//knn//training//' + filename)
+            features = getFeatures(path + '\\training\\' + filename)
             all.append(features)
     
     for m in range(4):
         allcopy = copy.deepcopy(all)
-        filename = 'c://wj//test//knn//test//' + str(m) + '.png'
+        filename = path + '\\test\\' + str(m) + '.png'
         testdata = getFeatures(filename)
         test(allcopy, testdata, filename)
 
